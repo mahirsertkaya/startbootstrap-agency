@@ -28,6 +28,8 @@
         offset: {
             top: 100
         }
-    })
+    });
+
+    $('#current-year').text(new Date(Date.now()).getFullYear());
 
 })(jQuery); // End of use strict
