@@ -43,7 +43,7 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Grand Codes</a>
+                <a class="navbar-brand page-scroll" href="/#page-top">Grand Codes</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -82,14 +82,14 @@
 
                     <?php
 
-                    $link = mysql_connect(localhost, "grandcodesusr", "osqyp*.9,D_T");
+                    $link = mysql_connect(localhost, "grandcodesusr", "");
 
                     if (!$link) {
                         die("Could not connect");
                     }
 
                     @mysql_select_db("grandcodesdb") or die("Unable to select database");
-                    $query="SELECT * FROM entry";
+                    $query="SELECT * FROM entry ORDER BY create_date DESC";
                     $result=mysql_query($query);
                     $num=mysql_numrows($result);
                     
@@ -106,17 +106,13 @@
                             $url=str_replace(" ","-", $title);
                             $url=strtolower($url);
 
+                            $createdate=date('d-M-Y', strtotime($createdate));
+
                             echo "<div class=\"post-preview\">
                                 <a href=\"/blog/$url\">
-                                    <h2 class=\"post-title\">
-                                        $title
-                                    </h2>
-
-                                    <h3 class=\"post-subtitle\">
-                                        $summary
-                                    </h3>
-
+                                    <h2 class=\"post-title\">$title</h2>
                                 </a>
+                                <p class=\"post-subtitle\">$summary...</p>
                                 <p class=\"post-meta\">Posted by $createdby on $createdate</p>
                             </div>
                             <hr> ";                           

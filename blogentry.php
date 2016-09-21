@@ -43,7 +43,7 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Grand Codes</a>
+                <a class="navbar-brand page-scroll" href="/#page-top">Grand Codes</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -62,7 +62,7 @@
                         <a class="page-scroll" href="/#about">About</a>
                     </li>
                     <li>
-                        <a class="page-scroll active" href="/blog.html">Blog</a>
+                        <a class="page-scroll active" href="/blog">Blog</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="/#contact">Contact</a>
@@ -74,42 +74,54 @@
         <!-- /.container-fluid -->
     </nav>
 
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="intro-text">
-                <div class="intro-lead-in">Welcome to Grand Codes!</div>
-                <div class="intro-heading">IT Consultancy</div>
-                <a href="#services" class="page-scroll btn btn-xl">More</a>
-            </div>
-        </div>
-    </header>
-
     <!-- Main Content -->
     <section id="blog">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
-                    <div class="post-preview">
-                        <a href="/2014/09/24/man-must-explore/">
-                            <h2 class="post-title">
-                                Man must explore, and this is exploration at its greatest
-                            </h2>
+                    <?php
 
-                            <h3 class="post-subtitle">
-                                Problems look mighty small from 150 miles up
-                            </h3>
+                    $titleofentry=$_GET["t"];
+                    $titleofentry=str_replace("-"," ", $titleofentry);
 
-                        </a>
-                        <p class="post-meta">Posted by Start Bootstrap on September 24, 2014</p>
-                    </div>              
+                    $db = new PDO("mysql:dbname=grandcodesdb;host=localhost", "grandcodesusr", "");
+
+                    $q = $db->prepare("SELECT * FROM entry e Where LOWER(e.title)=:title LIMIT 1");
+                    $q->bindValue(":title", $titleofentry);
+                    $q->execute();
+
+                    if ($q->rowCount() == 1){
+                        $row = $q->fetch();
+
+                        $title=$row["title"];
+                        $body=$row["body"];
+                        $createdate=$row["create_date"];
+                        $createdby=$row["created_by"];
+
+                        $url=str_replace(" ","-", $title);
+                        $url=strtolower($url);
+
+                        $createdate=date('d-M-Y', strtotime($createdate));
+
+                        echo "<div class=\"post-preview\">
+                                <h2 class=\"post-title\">
+                                    $title
+                                </h2>
+
+                                <p class=\"post-subtitle\">
+                                    $body
+                                </p>
+                            <p class=\"post-meta\">Posted by $createdby on $createdate</p>
+                        </div>
+                        <hr> ";
+                    }
+                    ?>
 
                 </div>
             </div>
         </div>
     </section>
-    <hr>
 
     <!-- Footer Section -->
     <footer>
