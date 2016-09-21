@@ -1,0 +1,19 @@
+﻿# Do not remove this line, otherwise mod_rewrite rules will stop working
+#RewriteBase /
+# URL rewriting module activation
+#Fix Rewrite
+Options -Multiviews
+
+RewriteEngine on
+RewriteCond %{REQUEST_METHOD} !^(TRACE|TRACK|GET|POST|HEAD)$
+RewriteRule .* - [F]
+RewriteBase /
+Options +FollowSymLinks
+
+# URL rewriting rules
+
+RewriteRule ^blog$ /blog.php [QSA,L,E]
+RewriteRule ^blog/([\w-]*)$ /blogentry.php?t=$1 [QSA,L,E]
+
+# Catch 404 errors
+ErrorDocument 404 /404.php
